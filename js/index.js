@@ -182,6 +182,12 @@ function testBasic() {
     console.log("draw: " + getWinner(newNode([], 48, 48, HUMAN, 10, null, null)));
 }
 
+
+// REFERENCES
+// 1- https://inst.eecs.berkeley.edu/~cs188/textbook/games/minimax.html
+// 2- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
+// 3- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
+
 // ========== PART 3 FINISH ==========
 
 // testBasic();

@@ -1,14 +1,14 @@
-// ========== PART 5 ==========
+// ========== PART 2 ==========
 // ========== GAME LOGIC ==========
 
 let currentNode = null;
 let depthLimit = 4;
-let algorithm = "AlphaBeta"; // or "Minimax"
+let algorithm = "AlphaBeta";
 
 // Start the game
 function startGame() {
     let length = parseInt(prompt("Choose string length (15–25):"));
-    if (length < 15 || length > 25) {
+    if (isNaN(length) || length < 15 || length > 25) {
         console.log("Invalid length. Must be between 15 and 25.");
         return;
     }
@@ -86,3 +86,10 @@ function restartGame() {
     console.log("Restarting game...");
     startGame();
 }
+
+//REFERENCES
+// 1- https://developer.mozilla.org/en-US/docs/Web/API/console/log_static
+// 2- https://developer.mozilla.org/en-US/docs/Web/JavaScript
+// 3- https://www.w3schools.com/js/
+
+// ========== PART 2 FINISH ==========

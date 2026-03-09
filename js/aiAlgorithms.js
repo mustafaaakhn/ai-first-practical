@@ -146,3 +146,9 @@ function getBestComputerMove(currentNode, algorithmName, depthLimit) {
 
     return bestNodeToPlay; 
 }
+// REFERENCES FOR PART 4
+// 1- https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-1-introduction/
+// 2- https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
+// 3- https://javascript.info/recursion
+
+// ========== PART 4 FINISH ==========

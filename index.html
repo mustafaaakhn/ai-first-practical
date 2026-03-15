@@ -3,18 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Subtracting Game - Task 4</title>
+    <title>TEAM 11</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f0f2f5; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .game-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 100%; max-width: 800px; }
-        .hidden { display: none; }
-        .number-btn { width: 60px; height: 60px; margin: 8px; font-size: 1.4rem; font-weight: bold; transition: 0.3s; border-radius: 12px; }
-        .number-btn:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .score-box { background: #f8f9fa; padding: 20px; border-radius: 15px; border-bottom: 4px solid #dee2e6; }
-        .human-highlight { border-color: #0d6efd !important; color: #0d6efd; }
-        .comp-highlight { border-color: #dc3545 !important; color: #dc3545; }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -25,23 +16,61 @@
             <div class="col-12">
                 <label class="form-label">String Length (15-25):</label>
                 <input type="number" id="lengthInput" class="form-control" value="15" min="15" max="25">
+                <div id="lengthValidationMsg" class="validation-msg hidden">Length must be between 15 and 25.</div>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Who Starts First?</label>
                 <select id="startSelect" class="form-select">
-                    <option value="user">User (Abhi)</option>
-                    <option value="computer">Computer (AI)</option>
+                    <option value="user">User</option>
+                    <option value="computer">Computer</option>
                 </select>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Algorithm Choice:</label>
                 <select id="algoSelect" class="form-select">
-                    <option value="AlphaBeta">Alpha-Beta Pruning</option>
+                    <option value="AlphaBeta">Alpha Beta</option>
                     <option value="Minimax">Minimax</option>
                 </select>
             </div>
             <div class="col-12 mt-4">
-                <button onclick="launchGame()" class="btn btn-primary w-100 btn-lg shadow-sm">START MISSION</button>
+                <button onclick="launchGame()" class="btn btn-primary w-100 btn-lg shadow-sm">START GAME</button>
+            </div>
+        </div>
+
+        <div id="teamInfo" class="team-box">
+            <h5 class="mb-3"><strong>Team Number 11</strong></h5>
+            <p class="mb-2">Team Information</p>
+            <div class="table-responsive">
+                <table class="table table-sm mb-0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Student ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mustafa Akhan</td>
+                            <td>221ADB228</td>
+                        </tr>
+                        <tr>
+                            <td>Delwin Biju</td>
+                            <td>241ADB008</td>
+                        </tr>
+                        <tr>
+                            <td>Dunya Himashi Thilakarathne</td>
+                            <td>241ADB035</td>
+                        </tr>
+                        <tr>
+                            <td>Garvit</td>
+                            <td>241ADB140</td>
+                        </tr>
+                        <tr>
+                            <td>Alizamin Aghayev</td>
+                            <td>241ADB066</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -49,16 +78,37 @@
     <div id="game" class="hidden">
         <div class="d-flex justify-content-between mb-4">
             <div class="score-box flex-fill me-2 text-center human-highlight">
-                <small>Abhi (User)</small>
+                <small>User</small>
                 <h2 id="uScore">50</h2>
             </div>
             <div class="score-box flex-fill ms-2 text-center comp-highlight">
-                <small>Computer (AI)</small>
+                <small>Computer</small>
                 <h2 id="aiScore">50</h2>
             </div>
         </div>
 
         <div id="info" class="alert alert-primary text-center fw-bold">Game Started!</div>
+
+        <div id="moveTracker" class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="move-box">
+                        <div class="move-title user-move-title">User Moves</div>
+                        <ul id="userMovesList" class="move-list">
+                            <li>-</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="move-box">
+                        <div class="move-title ai-move-title">AI Moves</div>
+                        <ul id="aiMovesList" class="move-list">
+                            <li>-</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div id="board" class="d-flex flex-wrap justify-content-center mb-4">
             </div>
@@ -68,97 +118,165 @@
             <button id="newGameBtn" class="btn btn-success flex-fill hidden" onclick="location.reload()">Play Again</button>
         </div>
     </div>
+
 </div>
 
-<script src="index.js"></script>
-<script src="aiAlgorithms.js"></script>
+<script src="js/index.js"></script>
+<script src="js/aiAlgorithms.js"></script>
+<script src="js/gamelogic.js"></script>
 
 <script>
-    let currentBoardNode = null;
-    let selectedAlgo = "";
+const lengthInputEl = document.getElementById('lengthInput');
+const lengthValidationMsgEl = document.getElementById('lengthValidationMsg');
 
-    function launchGame() {
-        const len = document.getElementById('lengthInput').value;
-        const starterStr = document.getElementById('startSelect').value;
-        selectedAlgo = document.getElementById('algoSelect').value;
+function showLengthValidation() {
+  lengthValidationMsgEl.classList.remove('hidden');
+}
 
+function hideLengthValidation() {
+  lengthValidationMsgEl.classList.add('hidden');
+}
 
-        let initialArray = makeNumArray(parseInt(len));
-        
-        
-        const firstPlayer = (starterStr === "user") ? HUMAN : COMPUTER;
-        currentBoardNode = makeStartNode(initialArray, firstPlayer);
+function getMoveEffectText(player, value) {
+  if (value === 2) return "(-1 to both)";
 
-        document.getElementById('menu').classList.add('hidden');
-        document.getElementById('game').classList.remove('hidden');
+  if (player === "user") {
+    if (value === 1) return "(-1 to User)";
+    if (value === 3) return "(-1 to AI)";
+  }
 
-        updateDisplay();
+  if (player === "ai") {
+    if (value === 1) return "(-1 to AI)";
+    if (value === 3) return "(-1 to User)";
+  }
 
-        
-        if (currentBoardNode.whoseTurn === COMPUTER) {
-            doAiTurn();
-        }
+  return "";
+}
+
+function setLatestMove(player, value) {
+  const listId = player === "user" ? "userMovesList" : "aiMovesList";
+  const moveList = document.getElementById(listId);
+
+  if (moveList.children.length === 1 && moveList.children[0].innerText === "-") {
+    moveList.innerHTML = "";
+  }
+
+  const item = document.createElement("li");
+
+  const moveNum = document.createElement("span");
+  moveNum.className = "move-num";
+  moveNum.innerText = value;
+
+  const moveEffect = document.createElement("span");
+  moveEffect.className = "move-effect";
+  moveEffect.innerText = getMoveEffectText(player, value);
+
+  item.appendChild(moveNum);
+  item.appendChild(moveEffect);
+  moveList.appendChild(item);
+}
+
+function resetLatestMoves() {
+  document.getElementById("userMovesList").innerHTML = "<li>-</li>";
+  document.getElementById("aiMovesList").innerHTML = "<li>-</li>";
+}
+
+function renderGame() {
+  const boardDiv = document.getElementById("board");
+  boardDiv.innerHTML = "";
+
+  document.getElementById("uScore").innerText = currentNode.humanPts;
+  document.getElementById("aiScore").innerText = currentNode.compPts;
+
+  if (currentNode.terminal) {
+    let result = getWinner(currentNode);
+    let message = "Game Over! ";
+
+    if (result === HUMAN) {
+      message += "User Wins!";
+    } else if (result === COMPUTER) {
+      message += "Computer Wins!";
+    } else {
+      message += "It's a Draw!";
     }
 
-    function updateDisplay() {
-        const boardDiv = document.getElementById('board');
-        boardDiv.innerHTML = "";
-        
-    
-        document.getElementById('uScore').innerText = currentBoardNode.humanPts;
-        document.getElementById('aiScore').innerText = currentBoardNode.compPts;
+    document.getElementById("info").className = "alert alert-success text-center fw-bold";
+    document.getElementById("info").innerText = message;
+    document.getElementById("newGameBtn").classList.remove("hidden");
+  } else {
+    document.getElementById("info").className = "alert alert-primary text-center fw-bold";
+    document.getElementById("info").innerText =
+      currentNode.whoseTurn === HUMAN ? "Your Turn" : "Computer Turn";
 
+    document.getElementById("newGameBtn").classList.add("hidden");
+  }
 
-        currentBoardNode.nums.forEach((num, i) => {
-            let b = document.createElement('button');
-            b.className = "btn btn-outline-primary number-btn";
-            b.innerText = num;
-            b.onclick = () => {
-                if (currentBoardNode.whoseTurn === HUMAN) {
-                    currentBoardNode = applyMove(currentBoardNode, i);
-                    checkGameStatus();
-                }
-            };
-            boardDiv.appendChild(b);
-        });
-    }
+  for (let i = 0; i < currentNode.nums.length; i++) {
+    const num = currentNode.nums[i];
+    const button = document.createElement("button");
 
-    function checkGameStatus() {
-        updateDisplay();
-        
-        if (currentBoardNode.terminal) {
-            let result = getWinner(currentBoardNode);
-            let message = "Game Over! ";
-            if(result === HUMAN) message += "Abhi Wins!";
-            else if(result === COMPUTER) message += "AI Wins!";
-            else message += "It's a Draw!";
-            
-            document.getElementById('info').className = "alert alert-success text-center fw-bold";
-            document.getElementById('info').innerText = message;
-            document.getElementById('newGameBtn').classList.remove('hidden');
-        } else if (currentBoardNode.whoseTurn === COMPUTER) {
-            doAiTurn();
-        }
-    }
+    button.className = "btn btn-outline-primary number-btn";
+    button.innerText = num;
+    button.disabled = currentNode.whoseTurn !== HUMAN || currentNode.terminal;
+    button.onclick = () => handleHumanMove(i);
 
-    function doAiTurn() {
-        document.getElementById('info').innerText = "AI is thinking...";
-        
-       
-        setTimeout(() => {
-            
-            let moveResult = getBestComputerMove(currentBoardNode, selectedAlgo, 5);
-            
-           
-            let idx = currentBoardNode.nums.indexOf(moveResult.removedNum);
-            currentBoardNode = applyMove(currentBoardNode, idx);
-            
-            document.getElementById('info').innerText = "Your Turn";
-            checkGameStatus();
-        }, 600);
-    }
+    boardDiv.appendChild(button);
+  }
+}
+
+function launchGame() {
+  const len = parseInt(document.getElementById("lengthInput").value, 10);
+  const starterStr = document.getElementById("startSelect").value;
+  const selectedAlgo = document.getElementById("algoSelect").value;
+  const chosenDepth = 5;
+
+  if (len < 15 || len > 25) {
+    showLengthValidation();
+    return;
+  }
+
+  hideLengthValidation();
+
+  const firstPlayer = starterStr === "user" ? HUMAN : COMPUTER;
+
+  document.getElementById("menu").classList.add("hidden");
+  document.getElementById("game").classList.remove("hidden");
+
+  resetLatestMoves();
+
+  startGame(len, firstPlayer, selectedAlgo, chosenDepth);
+
+  if (firstPlayer === COMPUTER && currentNode.removedNum !== null) {
+    setLatestMove("ai", currentNode.removedNum);
+  }
+
+  renderGame();
+}
+
+function handleHumanMove(index) {
+  if (currentNode.whoseTurn !== HUMAN || currentNode.terminal) return;
+
+  const humanRemovedNum = currentNode.nums[index];
+
+  humanMove(index);
+
+  setLatestMove("user", humanRemovedNum);
+
+  if (currentNode.removedNum !== null && currentNode.whoseTurn === HUMAN) {
+    setLatestMove("ai", currentNode.removedNum);
+  }
+
+  renderGame();
+}
+
+lengthInputEl.addEventListener("input", () => {
+  const currentLen = parseInt(lengthInputEl.value, 10);
+
+  if (!Number.isNaN(currentLen) && currentLen >= 15 && currentLen <= 25) {
+    hideLengthValidation();
+  }
+});
 </script>
+
 </body>
 </html>
-
-    

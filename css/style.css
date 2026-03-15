@@ -1,1 +1,111 @@
+body {
+	background-color: #f0f2f5;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+.game-container {
+	background: white;
+	padding: 40px;
+	border-radius: 20px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	max-width: 800px;
+}
+
+.hidden {
+	display: none;
+}
+
+.number-btn {
+	width: 60px;
+	height: 60px;
+	margin: 8px;
+	font-size: 1.4rem;
+	font-weight: bold;
+	transition: 0.3s;
+	border-radius: 12px;
+}
+
+.number-btn:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.score-box {
+	background: #f8f9fa;
+	padding: 20px;
+	border-radius: 15px;
+	border-bottom: 4px solid #dee2e6;
+}
+
+.human-highlight {
+	border-color: #0d6efd !important;
+	color: #0d6efd;
+}
+
+.comp-highlight {
+	border-color: #dc3545 !important;
+	color: #dc3545;
+}
+
+.move-box {
+	background: #f8f9fa;
+	padding: 14px 16px;
+	border-radius: 12px;
+	border: 1px solid #dee2e6;
+	min-height: 140px;
+}
+
+.move-title {
+	font-size: 0.95rem;
+	font-weight: 700;
+	margin-bottom: 8px;
+}
+
+.move-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.move-list li {
+	padding: 4px 0;
+}
+
+.move-num {
+	font-weight: 700;
+	color: #212529;
+}
+
+.move-effect {
+	font-size: 0.82rem;
+	color: #6c757d;
+	margin-left: 6px;
+	font-weight: 500;
+}
+
+.user-move-title {
+	color: #0d6efd;
+}
+
+.ai-move-title {
+	color: #dc3545;
+}
+
+.team-box {
+	margin-top: 24px;
+	background: #f8f9fa;
+	padding: 18px;
+	border-radius: 14px;
+	border: 1px solid #dee2e6;
+}
+
+.validation-msg {
+	margin-top: 6px;
+	font-size: 0.9rem;
+	color: #dc3545;
+}

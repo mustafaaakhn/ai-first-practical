@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Subtracting Game</title>
+    <style>
+        /* Simple styling to separate the two screens */
+        body { font-family: Arial; text-align: center; background: #eee; }
+        .screen { background: white; padding: 20px; border-radius: 10px; display: inline-block; margin-top: 50px; border: 2px solid #333; }
+        .hidden { display: none; }
+        .number-btn { font-size: 20px; margin: 5px; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
 
+    <div id="menu" class="screen">
+        <h1>Game Settings</h1>
+        <p>String Length (15-25): <input type="number" id="lengthInput" value="15"></p>
+        <p>Who Starts: 
+            <select id="startSelect">
+                <option value="user">User</option>
+                <option value="computer">Computer</option>
+            </select>
+        </p>
+        <p>Algorithm: 
+            <select id="algoSelect">
+                <option value="AlphaBeta">Alpha-Beta</option>
+                <option value="Minimax">Minimax</option>
+            </select>
+        </p>
+        <button onclick="launchGame()" style="background: green; color: white; padding: 10px;">START GAME</button>
+    </div>
+
+    <div id="game" class="screen hidden">
+        <h2>User: <span id="uScore">0</span> | AI: <span id="aiScore">0</span></h2>
+        <h3 id="info">Your Turn</h3>
+        <div id="board"></div>
+        <hr>
+        <button onclick="location.reload()">Restart/New Game</button>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="aiAlgorithms.js"></script>
+
+    <script>
+        let currentBoard = [];
+        let uTotal = 0;
+        let aiTotal = 0;
+        let selectedAlgo = "";
+
+        function launchGame() {
+            // 1. Get settings
+            const len = document.getElementById('lengthInput').value;
+            const starter = document.getElementById('startSelect').value;
+            selectedAlgo = document.getElementById('algoSelect').value;
+
+            // 2. Generate numbers
+            currentBoard = makeNumArray(parseInt(len));
+
+            // 3. Swap Screens
+            document.getElementById('menu').classList.add('hidden');
+            document.getElementById('game').classList.remove('hidden');
+
+            drawBoard();
+            if(starter === "computer") doAiTurn();
+        }
+
+        function drawBoard() {
+            const div = document.getElementById('board');
+            div.innerHTML = "";
+            currentBoard.forEach((num, i) => {
+                let b = document.createElement('button');
+                b.className = "number-btn";
+                b.innerText = num;
+                b.onclick = () => {
+                    uTotal += num;
+                    currentBoard.splice(i, 1);
+                    updateAndCheck();
+                };
+                div.appendChild(b);
+            });
+        }
+
+        function updateAndCheck() {
+            document.getElementById('uScore').innerText = uTotal;
+            document.getElementById('aiScore').innerText = aiTotal;
+            drawBoard();
+            if(currentBoard.length > 0) doAiTurn();
+            else alert("Game Over!");
+        }
+
+        function doAiTurn() {
+            document.getElementById('info').innerText = "AI is thinking...";
+            setTimeout(() => {
+                let root = makeStartNode(currentBoard, "computer");
+                let move = getBestComputerMove(root, selectedAlgo, 5);
+                let idx = currentBoard.indexOf(move.removedNum);
+                aiTotal += currentBoard[idx];
+                currentBoard.splice(idx, 1);
+                document.getElementById('info').innerText = "Your Turn";
+                updateAndCheck();
+            }, 500);
+        }
+    </script>
+</body>
+</html>

@@ -82,20 +82,19 @@
         const starterStr = document.getElementById('startSelect').value;
         selectedAlgo = document.getElementById('algoSelect').value;
 
-        // 1. MUSTAFA'S LOGIC: Generate array and Root Node
+
         let initialArray = makeNumArray(parseInt(len));
         
-        // We use Mustafa's HUMAN/COMPUTER constants
+        
         const firstPlayer = (starterStr === "user") ? HUMAN : COMPUTER;
         currentBoardNode = makeStartNode(initialArray, firstPlayer);
 
-        // 2. UI Swap
         document.getElementById('menu').classList.add('hidden');
         document.getElementById('game').classList.remove('hidden');
 
         updateDisplay();
 
-        // If computer is first, trigger it
+        
         if (currentBoardNode.whoseTurn === COMPUTER) {
             doAiTurn();
         }
@@ -105,11 +104,11 @@
         const boardDiv = document.getElementById('board');
         boardDiv.innerHTML = "";
         
-        // Update Scores from Mustafa's node data
+    
         document.getElementById('uScore').innerText = currentBoardNode.humanPts;
         document.getElementById('aiScore').innerText = currentBoardNode.compPts;
 
-        // Draw buttons for remaining numbers
+
         currentBoardNode.nums.forEach((num, i) => {
             let b = document.createElement('button');
             b.className = "btn btn-outline-primary number-btn";
@@ -145,12 +144,12 @@
     function doAiTurn() {
         document.getElementById('info').innerText = "AI is thinking...";
         
-        // Timeout gives the UI a chance to update so it doesn't look frozen
+       
         setTimeout(() => {
-            // Calling aiAlgorithms.js logic
+            
             let moveResult = getBestComputerMove(currentBoardNode, selectedAlgo, 5);
             
-            // Apply the move Mustafa's way
+           
             let idx = currentBoardNode.nums.indexOf(moveResult.removedNum);
             currentBoardNode = applyMove(currentBoardNode, idx);
             

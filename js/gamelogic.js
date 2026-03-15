@@ -4,6 +4,7 @@
 let currentNode = null;
 let depthLimit = 4;
 let algorithm = "AlphaBeta";
+let roundInProgress = false;
 
 // START GAME 
 function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
@@ -18,14 +19,9 @@ function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 
     let nums = makeNumArray(length);
 
-    console.log("Generated string:", nums);
-    console.log("Algorithm:", algorithm);
-    console.log("Search depth:", depthLimit);
-    console.log("First player:", firstPlayer);
+    console.log("[Setup] Numbers: [" + nums + "] | Algorithm: " + algorithm + " | First: " + firstPlayer);
 
     currentNode = makeStartNode(nums, firstPlayer);
-
-    showGameState();
 
     // If computer starts, immediately perform the first move
     if (firstPlayer === COMPUTER) {
@@ -36,10 +32,8 @@ function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 // DISPLAY STATE 
 function showGameState() {
 
-    console.log("Numbers:", currentNode.nums);
-    console.log("Human points:", currentNode.humanPts);
-    console.log("Computer points:", currentNode.compPts);
-    console.log("Turn:", currentNode.whoseTurn);
+    console.log("Numbers: [" + currentNode.nums + "]");
+    console.log("H: " + currentNode.humanPts + " | C: " + currentNode.compPts + " | Turn: " + currentNode.whoseTurn);
 }
 
 //  HUMAN MOVE 
@@ -55,12 +49,22 @@ function humanMove(index) {
         return;
     }
 
+    if (!roundInProgress) {
+        console.log("=== ROUND START ===");
+        showGameState();
+        roundInProgress = true;
+    }
+
     currentNode = applyMove(currentNode, index);
 
     console.log("Human removed:", currentNode.removedNum);
 
-    showGameState();
     checkGameEnd();
+
+    if (currentNode.terminal) {
+        console.log("=== ROUND END ===");
+        roundInProgress = false;
+    }
 
     if (!currentNode.terminal && currentNode.whoseTurn === COMPUTER) {
         computerMove();
@@ -72,7 +76,11 @@ function computerMove() {
 
     if (currentNode.terminal) return;
 
-    console.log("Computer thinking...");
+    if (!roundInProgress) {
+        console.log("=== ROUND START ===");
+        showGameState();
+        roundInProgress = true;
+    }
 
     let bestMove = getBestComputerMove(currentNode, algorithm, depthLimit);
 
@@ -83,6 +91,8 @@ function computerMove() {
     showGameState();
 
     checkGameEnd();
+    console.log("=== ROUND END ===");
+    roundInProgress = false;
 }
 
 //  GAME END 

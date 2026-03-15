@@ -189,5 +189,3 @@ function testBasic() {
 // 3- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
 
 // ========== PART 3 FINISH ==========
-
-// testBasic();

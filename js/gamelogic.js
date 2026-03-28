@@ -6,6 +6,10 @@ let depthLimit = 4;
 let algorithm = "AlphaBeta";
 let roundInProgress = false;
 
+function getComputerDelayMs() {
+    return Math.floor(Math.random() * 701) + 700;
+}
+
 // START GAME 
 function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 
@@ -23,9 +27,20 @@ function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 
     currentNode = makeStartNode(nums, firstPlayer);
 
-    // If computer starts, immediately perform the first move
+    // If computer starts, perform the first move after a small random delay
     if (firstPlayer === COMPUTER) {
-        computerMove();
+        setTimeout(function () {
+            if (!currentNode.terminal && currentNode.whoseTurn === COMPUTER) {
+                computerMove();
+
+                if (typeof setLatestMove === "function" && currentNode.removedNum !== null) {
+                    setLatestMove("ai", currentNode.removedNum);
+                }
+                if (typeof renderGame === "function") {
+                    renderGame();
+                }
+            }
+        }, getComputerDelayMs());
     }
 }
 
@@ -67,7 +82,18 @@ function humanMove(index) {
     }
 
     if (!currentNode.terminal && currentNode.whoseTurn === COMPUTER) {
-        computerMove();
+        setTimeout(function () {
+            if (!currentNode.terminal && currentNode.whoseTurn === COMPUTER) {
+                computerMove();
+
+                if (typeof setLatestMove === "function" && currentNode.removedNum !== null) {
+                    setLatestMove("ai", currentNode.removedNum);
+                }
+                if (typeof renderGame === "function") {
+                    renderGame();
+                }
+            }
+        }, getComputerDelayMs());
     }
 }
 

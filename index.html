@@ -206,7 +206,7 @@ function renderGame() {
   } else {
     document.getElementById("info").className = "alert alert-primary text-center fw-bold";
     document.getElementById("info").innerText =
-      currentNode.whoseTurn === HUMAN ? "Your Turn" : "Computer Turn";
+      currentNode.whoseTurn === HUMAN ? "Your Turn" : "Computer's turn...";
 
     document.getElementById("newGameBtn").classList.add("hidden");
   }

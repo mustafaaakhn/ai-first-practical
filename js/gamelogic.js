@@ -2,7 +2,7 @@
 // ========== GAME LOGIC ==========
 
 let currentNode = null;
-let depthLimit = 5;
+let depthLimit = 4;
 let algorithm = "AlphaBeta";
 let roundInProgress = false;
 

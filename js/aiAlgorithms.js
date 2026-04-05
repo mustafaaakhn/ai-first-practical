@@ -137,6 +137,10 @@ function getBestComputerMove(currentNode, algorithmName, depthLimit) {
 
     let endTime = performance.now();
     let totalTimeMs = endTime - startTime;
+    totalGameNodes += nodesGeneratedCount;
+    totalGameEvaluated += nodesEvaluatedCount;
+    totalMoveTime += totalTimeMs;
+    totalMoves += 1;
 
     // Print stats to console so we can write them in the report
     console.log("--- " + algorithmName + " Turn Stats ---");

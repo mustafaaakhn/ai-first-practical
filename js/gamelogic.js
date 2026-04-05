@@ -5,6 +5,10 @@ let currentNode = null;
 let depthLimit = 4;
 let algorithm = "AlphaBeta";
 let roundInProgress = false;
+let totalGameNodes = 0;
+let totalGameEvaluated = 0;
+let totalMoveTime = 0;
+let totalMoves = 0;
 
 function getComputerDelayMs() {
     return Math.floor(Math.random() * 701) + 700;
@@ -123,13 +127,17 @@ function computerMove() {
 
 //  GAME END 
 function checkGameEnd() {
-
     if (!currentNode.terminal) return;
 
     let winner = getWinner(currentNode);
+    let avgTime = totalMoves > 0 ? (totalMoveTime / totalMoves).toFixed(2) : 0;
+
+    console.log("=== GAME TOTAL STATS ===");
+    console.log("Total Nodes Generated: " + totalGameNodes);
+    console.log("Total Nodes Evaluated: " + totalGameEvaluated);
+    console.log("Average Move Time: " + avgTime + " ms");
 
     console.log("Game Over!");
-
     if (winner === HUMAN) {
         console.log("Human wins!");
     }
@@ -139,6 +147,11 @@ function checkGameEnd() {
     else {
         console.log("Draw!");
     }
+
+    totalGameNodes = 0;
+    totalGameEvaluated = 0;
+    totalMoveTime = 0;
+    totalMoves = 0;
 }
 
 // RESTART 

@@ -1,6 +1,7 @@
 // ========== PART 2 ==========
 // ========== GAME LOGIC ==========
 
+// current game and settings
 let currentNode = null;
 let depthLimit = 4;
 let algorithm = "AlphaBeta";
@@ -10,11 +11,14 @@ let totalGameEvaluated = 0;
 let totalMoveTime = 0;
 let totalMoves = 0;
 
+// computer wait time
 function getComputerDelayMs() {
     return Math.floor(Math.random() * 701) + 700;
 }
 
 // START GAME 
+
+// length first player algorithm depth
 function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 
     if (length < 15 || length > 25) {
@@ -31,7 +35,7 @@ function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 
     currentNode = makeStartNode(nums, firstPlayer);
 
-    // If computer starts, perform the first move after a small random delay
+    // If computer starts do the first move after small random delay
     if (firstPlayer === COMPUTER) {
         setTimeout(function () {
             if (!currentNode.terminal && currentNode.whoseTurn === COMPUTER) {
@@ -49,6 +53,8 @@ function startGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 }
 
 // DISPLAY STATE 
+
+// console game state
 function showGameState() {
 
     console.log("Numbers: [" + currentNode.nums + "]");
@@ -56,6 +62,8 @@ function showGameState() {
 }
 
 //  HUMAN MOVE 
+
+// human turn and index check
 function humanMove(index) {
 
     if (currentNode.whoseTurn !== HUMAN) {
@@ -102,6 +110,8 @@ function humanMove(index) {
 }
 
 //  COMPUTER MOVE 
+
+// ai chooses best move
 function computerMove() {
 
     if (currentNode.terminal) return;
@@ -126,6 +136,8 @@ function computerMove() {
 }
 
 //  GAME END 
+
+// winner and total stats
 function checkGameEnd() {
     if (!currentNode.terminal) return;
 
@@ -155,6 +167,8 @@ function checkGameEnd() {
 }
 
 // RESTART 
+
+// start again same way
 function restartGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 
     console.log("Restarting game...");
@@ -163,6 +177,7 @@ function restartGame(length, firstPlayer, chosenAlgorithm, chosenDepth) {
 }
 
 
+// prompt old test start
 function startGameFromPrompt() {
 
     let length = parseInt(prompt("Choose string length (15–25):"));

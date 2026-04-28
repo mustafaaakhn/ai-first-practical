@@ -5,6 +5,7 @@
 const HUMAN = "human";
 const COMPUTER = "computer";
 
+// node data for tree
 function newNode(numArray, humanPts, compPts, whoseTurn, currentDepth, pickedIndex, removedNum) {
     let node = {};
     node.nums = numArray;
@@ -20,10 +21,12 @@ function newNode(numArray, humanPts, compPts, whoseTurn, currentDepth, pickedInd
     return node;
 }
 
+// start score and first turn
 function makeStartNode(numArray, firstPlayer) {
     return newNode(numArray, 50, 50, firstPlayer, 0, null, null);
 }
 
+// length check and random 1 2 3
 function makeNumArray(len) {
     if (len < 15 || len > 25) {
         console.log("length must be between 15 and 25");
@@ -38,6 +41,7 @@ function makeNumArray(len) {
     return result;
 }
 
+// moves from all indexes
 function getValidMoves(node) {
     let moves = [];
     for (let i = 0; i < node.nums.length; i++) {
@@ -46,6 +50,7 @@ function getValidMoves(node) {
     return moves;
 }
 
+// score rules place
 function updateScores(humanPts, compPts, removedNum, whoseTurn) {
     let hPts = humanPts;
     let cPts = compPts;
@@ -79,7 +84,8 @@ function updateScores(humanPts, compPts, removedNum, whoseTurn) {
     return { hPts: hPts, cPts: cPts };
 }
 
-// does not touch the original node, returns a new one
+// does not touch the original node returns a new one
+// removed number and next turn
 function applyMove(node, pickedIndex) {
     let newNums = [];
     for (let i = 0; i < node.nums.length; i++) {
@@ -109,6 +115,7 @@ function applyMove(node, pickedIndex) {
     );
 }
 
+// tree children place
 function expandNode(node) {
     if (node.children.length > 0) {
         return;
@@ -119,6 +126,7 @@ function expandNode(node) {
     }
 }
 
+// winner rule
 function getWinner(node) {
     if (!node.terminal) return null;
     if (node.humanPts > node.compPts) return HUMAN;
@@ -126,6 +134,7 @@ function getWinner(node) {
     return "draw";
 }
 
+// console check
 function printNode(node) {
     console.log("depth=" + node.depth + " turn=" + node.whoseTurn);
     console.log("nums: [" + node.nums + "]");
@@ -137,6 +146,7 @@ function printNode(node) {
     console.log("---");
 }
 
+// build tree until depth
 function buildTree(node, depthLimit, nodeCount) {
     nodeCount.val = nodeCount.val + 1;
     if (node.terminal) return;
@@ -148,6 +158,7 @@ function buildTree(node, depthLimit, nodeCount) {
     }
 }
 
+// test code
 function testBasic() {
     let arr = makeNumArray(15);
     console.log("arr: " + arr);

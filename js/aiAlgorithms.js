@@ -2,15 +2,18 @@
 // ========== AI ALGORITHMS & HEURISTIC ==========
 
 // Variables to track stats for the final report
+// counters for report
 let nodesGeneratedCount = 0;
 let nodesEvaluatedCount = 0;
 
 // Simple heuristic: just subtract human points from computer points
+// heuristic score place
 function getHeuristicScore(node) {
     nodesEvaluatedCount++;
     return node.compPts - node.humanPts;
 }
 
+// minimax search
 function runMinimax(node, depth, isComputerTurn) {
     nodesGeneratedCount++;
 
@@ -50,6 +53,7 @@ function runMinimax(node, depth, isComputerTurn) {
     }
 }
 
+// alpha beta search
 function runAlphaBeta(node, depth, alpha, beta, isComputerTurn) {
     nodesGeneratedCount++;
 
@@ -76,6 +80,7 @@ function runAlphaBeta(node, depth, alpha, beta, isComputerTurn) {
             }
             
             // Pruning happens here
+            // cutoff condition
             if (beta <= alpha) {
                 break; 
             }
@@ -96,6 +101,7 @@ function runAlphaBeta(node, depth, alpha, beta, isComputerTurn) {
             }
             
             // Pruning happens here
+            // cutoff condition
             if (beta <= alpha) {
                 break;
             }
@@ -104,6 +110,7 @@ function runAlphaBeta(node, depth, alpha, beta, isComputerTurn) {
     }
 }
 
+// choose best ai move
 function getBestComputerMove(currentNode, algorithmName, depthLimit) {
     // Reset counters for the new move
     nodesGeneratedCount = 0;

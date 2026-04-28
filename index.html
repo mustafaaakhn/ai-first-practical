@@ -129,14 +129,17 @@
 const lengthInputEl = document.getElementById('lengthInput');
 const lengthValidationMsgEl = document.getElementById('lengthValidationMsg');
 
+// show length warning
 function showLengthValidation() {
   lengthValidationMsgEl.classList.remove('hidden');
 }
 
+// hide length warning
 function hideLengthValidation() {
   lengthValidationMsgEl.classList.add('hidden');
 }
 
+// move text for score change
 function getMoveEffectText(player, value) {
   if (value === 2) return "(-1 to both)";
 
@@ -153,6 +156,7 @@ function getMoveEffectText(player, value) {
   return "";
 }
 
+// add move to history
 function setLatestMove(player, value) {
   const listId = player === "user" ? "userMovesList" : "aiMovesList";
   const moveList = document.getElementById(listId);
@@ -176,11 +180,13 @@ function setLatestMove(player, value) {
   moveList.appendChild(item);
 }
 
+// clear move history
 function resetLatestMoves() {
   document.getElementById("userMovesList").innerHTML = "<li>-</li>";
   document.getElementById("aiMovesList").innerHTML = "<li>-</li>";
 }
 
+// update board and scores
 function renderGame() {
   const boardDiv = document.getElementById("board");
   boardDiv.innerHTML = "";
@@ -224,6 +230,7 @@ function renderGame() {
   }
 }
 
+// start game from ui
 function launchGame() {
   const len = parseInt(document.getElementById("lengthInput").value, 10);
   const starterStr = document.getElementById("startSelect").value;
@@ -253,6 +260,7 @@ function launchGame() {
   renderGame();
 }
 
+// user button click
 function handleHumanMove(index) {
   if (currentNode.whoseTurn !== HUMAN || currentNode.terminal) return;
 
@@ -269,6 +277,7 @@ function handleHumanMove(index) {
   renderGame();
 }
 
+// live length check
 lengthInputEl.addEventListener("input", () => {
   const currentLen = parseInt(lengthInputEl.value, 10);
 

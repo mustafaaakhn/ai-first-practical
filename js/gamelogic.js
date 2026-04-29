@@ -3,7 +3,7 @@
 
 // current game and settings
 let currentNode = null;
-let depthLimit = 4;
+let depthLimit = 8;
 let algorithm = "AlphaBeta";
 let roundInProgress = false;
 let totalGameNodes = 0;
